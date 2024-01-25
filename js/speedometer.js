@@ -3,6 +3,7 @@ const startBtn = document.getElementById("start");
 const stopBtn = document.getElementById("stop");
 
 let watchID = null;
+let currentRide = null;
 
 startBtn.addEventListener("click", () => {
   // Api do Navegador, serve para pegar as informações do dispositivo,
@@ -13,6 +14,8 @@ startBtn.addEventListener("click", () => {
   if (watchID) return;
 
   function handleSuccess(position) {
+    addPosition(currentRide, position);
+
     // Recebe a informação na variável `position`
     //  para a velocidade é `{variável}.coords.speed`
     speedElement.innerHTML = position.coords.speed
@@ -26,6 +29,9 @@ startBtn.addEventListener("click", () => {
 
   // Informações adicionais da API (Documentação)
   const option = { enableHighAccuracy: true };
+
+  // Inicia a corrida.
+  currentRide = createNewRide();
   watchID = navigator.geolocation.watchPosition(
     handleSuccess,
     handleError,
@@ -43,7 +49,11 @@ stopBtn.addEventListener("click", () => {
   navigator.geolocation.clearWatch(watchID);
   watchID = null;
 
-  // Remover/Adicionar os botões Start e Stop.
+  // Finaliza a corrida.
+  updateStopTime(currentRide);
+  currentRide = null;
+
+  // Remover/Adicionar os botões Stop e Start.
   stopBtn.classList.add("d-none");
   startBtn.classList.remove("d-none");
 });
