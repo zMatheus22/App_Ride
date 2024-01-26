@@ -30,6 +30,14 @@ allRides.forEach(async ([id, value]) => {
   distanceDiv.innerHTML = `Distance: ${getDistance(ride.data)} Km`;
   itemElement.appendChild(distanceDiv);
 
+  const durationDiv = document.createElement("div");
+  durationDiv.innerHTML = `Time: ${getDuration(ride)}`;
+  itemElement.appendChild(durationDiv);
+
+  const dateDiv = document.createElement("div");
+  dateDiv.innerHTML = getStartDate(ride);
+  itemElement.appendChild(dateDiv);
+
   // Adiciona a tag criada, <li>, ao seu pai, <ul>.
   rideListElement.appendChild(itemElement);
 });
@@ -53,6 +61,31 @@ function getMaxSpeed(positions) {
 
   // Transformando o m/s em Km/h
   return (maxSpeed * 3.6).toFixed(1);
+}
+
+function getDuration(ride) {
+  function format(number, digits) {
+    return String(number.toFixed(0)).padStart(digits, "0");
+  }
+
+  const interval = (ride.stopTime - ride.startTime) / 1000; // em segundos.
+  const minutes = Math.trunc(interval / 60);
+  const seconds = interval % 60;
+
+  return `${format(minutes, 2)}:${format(seconds, 2)}`;
+}
+
+function getStartDate(ride) {
+  const date = new Date(ride.startTime);
+
+  const day = date.toLocaleString("en-US", { day: "numeric" });
+  const month = date.toLocaleString("en-US", { month: "short" });
+  const year = date.toLocaleString("en-US", { year: "numeric" });
+
+  const hour = date.toLocaleString("en-US", { hour: "2-digit", hour12: false });
+  const min = date.toLocaleString("en-US", { minute: "2-digit" });
+
+  return `${hour}:${min} - ${month} ${day}, ${year}`;
 }
 
 // Documentação para cálculo de distância https://www.movable-type.co.uk/scripts/latlong.html
@@ -84,7 +117,7 @@ function getDistance(positions) {
 
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-    const distance = earthRadiusKm * c; // in metres
+    const distance = earthRadiusKm * c; // em metro
 
     totalDistance += distance;
   }
