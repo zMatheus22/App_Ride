@@ -17,26 +17,41 @@ allRides.forEach(async ([id, value]) => {
   // Cria a tag <li> adiciona o id e colocar as informações da corrida.
   const itemElement = document.createElement("li");
   itemElement.id = ride.id;
+  itemElement.className =
+    "d-flex p-1 align-items-center justify-content-between shadow-sm mb-2 gap-3";
+
+  const mapElement = document.createElement("div");
+  mapElement.style = "width:100px; height:100px;";
+  mapElement.className = "bg-dark rounded-4";
+
+  const dataElement = document.createElement("div");
+  dataElement.className = "flex-fill d-flex flex-column";
 
   const cityDiv = document.createElement("div");
   cityDiv.innerText = `City: ${firstLocationData.city} - ${firstLocationData.countryCode}`;
-  itemElement.appendChild(cityDiv);
+  cityDiv.className = "text-primary mb-2";
+  dataElement.appendChild(cityDiv);
 
   const maxSpeedDiv = document.createElement("div");
   maxSpeedDiv.innerHTML = `Max speed: ${getMaxSpeed(ride.data)} Km/h`;
-  itemElement.appendChild(maxSpeedDiv);
+  maxSpeedDiv.className = "h5";
+  dataElement.appendChild(maxSpeedDiv);
 
   const distanceDiv = document.createElement("div");
   distanceDiv.innerHTML = `Distance: ${getDistance(ride.data)} Km`;
-  itemElement.appendChild(distanceDiv);
+  dataElement.appendChild(distanceDiv);
 
   const durationDiv = document.createElement("div");
-  durationDiv.innerHTML = `Time: ${getDuration(ride)}`;
-  itemElement.appendChild(durationDiv);
+  durationDiv.innerHTML = `Durantion: ${getDuration(ride)}`;
+  dataElement.appendChild(durationDiv);
 
   const dateDiv = document.createElement("div");
   dateDiv.innerHTML = getStartDate(ride);
-  itemElement.appendChild(dateDiv);
+  dateDiv.className = "text-secondary mt-2";
+  dataElement.appendChild(dateDiv);
+
+  itemElement.appendChild(mapElement);
+  itemElement.appendChild(dataElement);
 
   // Adiciona a tag criada, <li>, ao seu pai, <ul>.
   rideListElement.appendChild(itemElement);
