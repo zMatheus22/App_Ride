@@ -5,3 +5,8 @@ html,
 body {
   height: 100vh;
 }
+
+#mapDetail {
+  height: 300px;
+  background-color: #ccc;
+}

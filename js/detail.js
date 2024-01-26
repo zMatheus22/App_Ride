@@ -1,26 +1,11 @@
-// Página dinâmica.
+// Pegar o id pela URL
+const params = new URLSearchParams(window.location.search);
+const rideID = params.get("id");
+const ride = getRideRecord(rideID);
 
-const rideListElement = document.getElementById("rideList");
-// Receber o localStorege
-const allRides = getAllRides();
+const dataDiv = document.getElementById("data");
 
-allRides.forEach(async ([id, value]) => {
-  const ride = JSON.parse(value);
-  ride.id = id;
-
-  // Cria a tag <li> adiciona o id e colocar as informações da corrida.
-  const itemElement = document.createElement("li");
-  itemElement.id = ride.id;
-  itemElement.className =
-    "d-flex p-1 align-items-center justify-content-between shadow-sm mb-2 gap-3";
-
-  // Adiciona a tag criada, <li>, ao seu pai, <ul>.
-  rideListElement.appendChild(itemElement);
-
-  itemElement.addEventListener("click", () => {
-    window.location.href = `./detail.html?id=${ride.id}`;
-  });
-
+document.addEventListener("DOMContentLoaded", async () => {
   const firstPosition = ride.data[0];
   const firstLocationData = await getLocationData(
     firstPosition.latitude,
@@ -57,6 +42,5 @@ allRides.forEach(async ([id, value]) => {
   dateDiv.className = "text-secondary mt-2";
   dataElement.appendChild(dateDiv);
 
-  itemElement.appendChild(mapElement);
-  itemElement.appendChild(dataElement);
+  dataDiv.appendChild(dataElement);
 });
