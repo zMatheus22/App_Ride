@@ -43,4 +43,23 @@ document.addEventListener("DOMContentLoaded", async () => {
   dataElement.appendChild(dateDiv);
 
   dataDiv.appendChild(dataElement);
+
+  // API map - https://leafletjs.com/
+  const map = L.map("mapDetail");
+  map.setView([firstPosition.latitude, firstPosition.longitude], 13);
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    minZoom: 5,
+    maxZoom: 18,
+    ext: "png",
+  }).addTo(map);
+
+  // Coletar e Adicionar o tracejado no mapa
+  const positionsArray = ride.data.map((position) => {
+    return [position.latitude, position.longitude];
+  });
+
+  const polyline = L.polyline(positionsArray, { color: "#F00" });
+  polyline.addTo(map);
+
+  map.fitBounds(polyline.getBounds());
 });
