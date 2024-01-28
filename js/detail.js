@@ -44,6 +44,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   dataDiv.appendChild(dataElement);
 
+  const deleteButton = document.getElementById("deleteBtn");
+  deleteButton.addEventListener("click", () => {
+    deleteRide(rideID);
+    window.location.href = "./";
+  });
+
   // API map - https://leafletjs.com/
   const map = L.map("mapDetail");
   map.setView([firstPosition.latitude, firstPosition.longitude], 13);

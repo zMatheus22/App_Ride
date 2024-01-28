@@ -56,4 +56,6 @@ stopBtn.addEventListener("click", () => {
   // Remover/Adicionar os botões Stop e Start.
   stopBtn.classList.add("d-none");
   startBtn.classList.remove("d-none");
+
+  window.location.href = "./";
 });
